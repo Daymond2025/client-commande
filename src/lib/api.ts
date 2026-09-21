@@ -1,4 +1,4 @@
-import type { ReponseCommande } from "@/lib/types";
+import type { Confirmation } from "@/lib/types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000/api/v1";
 
@@ -54,10 +54,18 @@ export type DonneesCommande = {
   prenom?: string;
   telephone: string;
   localite_id: number;
-  adresse: string;
   notes?: string;
 };
 
-export function passerCommande(donnees: DonneesCommande): Promise<ReponseCommande> {
-  return appelerApi<ReponseCommande>("/public/commandes", { method: "POST", corps: donnees });
+/**
+ * "Payer" : ouvre le paiement de confirmation sur Wave. Aucune commande n'existe encore — elle
+ * naît quand Wave confirme le paiement (voir AcompteConfirmationService côté backend).
+ */
+export function ouvrirConfirmation(donnees: DonneesCommande): Promise<Confirmation> {
+  return appelerApi<Confirmation>("/public/confirmations", { method: "POST", corps: donnees });
+}
+
+/** Où en est la confirmation (page de retour de Wave) — le statut réel, jamais ce que dit l'URL. */
+export function lireConfirmation(token: string): Promise<Confirmation> {
+  return appelerApi<Confirmation>(`/public/confirmations/${encodeURIComponent(token)}`);
 }

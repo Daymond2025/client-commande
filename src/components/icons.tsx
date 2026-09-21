@@ -107,3 +107,103 @@ export function FlecheGaucheIcon(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+const TRAIT_FIN = { fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round", strokeLinejoin: "round" } as const;
+
+/** Pictogrammes des caractéristiques de la fiche produit. */
+export function ProcesseurIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" {...TRAIT_FIN} {...props}>
+      <rect x="6" y="6" width="12" height="12" rx="2" />
+      <rect x="9.5" y="9.5" width="5" height="5" rx="0.8" />
+      <path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3" />
+    </svg>
+  );
+}
+
+export function DisqueIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" {...TRAIT_FIN} {...props}>
+      <rect x="3" y="5" width="18" height="14" rx="2.5" />
+      <path d="M3 14h18" />
+      <path d="M7 16.5h.01M10 16.5h.01" />
+    </svg>
+  );
+}
+
+export function MemoireIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" {...TRAIT_FIN} {...props}>
+      <rect x="2.5" y="7" width="19" height="9" rx="1.5" />
+      <path d="M6 10v3M10 10v3M14 10v3M18 10v3" />
+      <path d="M5 16v2.5M9 16v2.5M13 16v2.5M17 16v2.5" />
+    </svg>
+  );
+}
+
+export function CarteGraphiqueIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" {...TRAIT_FIN} {...props}>
+      <rect x="2.5" y="6.5" width="19" height="10" rx="2" />
+      <circle cx="9" cy="11.5" r="2.5" />
+      <path d="M15 10h3.5M15 13h3.5" />
+      <path d="M5 16.5v2M9 16.5v2" />
+    </svg>
+  );
+}
+
+export function EcranIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" {...TRAIT_FIN} {...props}>
+      <rect x="3" y="4.5" width="18" height="12" rx="2" />
+      <path d="M8 20h8M12 16.5V20" />
+    </svg>
+  );
+}
+
+export function FenetresIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M3 5.6 10.5 4.5v6.7H3V5.6Zm8.7-1.3L21 3v8.2h-9.3V4.3ZM3 12.8h7.5v6.7L3 18.4v-5.6Zm8.7 0H21V21l-9.3-1.3v-6.9Z" />
+    </svg>
+  );
+}
+
+export function PointsVerticauxIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <circle cx="12" cy="5" r="1.8" />
+      <circle cx="12" cy="12" r="1.8" />
+      <circle cx="12" cy="19" r="1.8" />
+    </svg>
+  );
+}
+
+export function ChevronBasIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" {...TRAIT} strokeWidth={2.2} {...props}>
+      <path d="M5 9l7 7 7-7" />
+    </svg>
+  );
+}
+
+/** Drapeau de la Côte d'Ivoire (orange, blanc, vert) — pastille du champ téléphone. */
+export function DrapeauCiIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 30 22" {...props}>
+      <rect width="10" height="22" fill="#F77F00" />
+      <rect x="10" width="10" height="22" fill="#FFFFFF" />
+      <rect x="20" width="10" height="22" fill="#009E60" />
+    </svg>
+  );
+}
+
+export function CadenasIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" {...TRAIT} {...props}>
+      <rect x="5" y="10.5" width="14" height="9.5" rx="2.2" />
+      <path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" />
+      <circle cx="12" cy="15.3" r="1.1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
