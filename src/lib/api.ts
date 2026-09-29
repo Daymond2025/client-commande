@@ -2,6 +2,10 @@ import type { Confirmation } from "@/lib/types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000/api/v1";
 
+// Sans ça, une requête dont la réponse n'arrive jamais laisse l'écran sur
+// "Chargement…" indéfiniment — rien ne rejette la promesse.
+const DELAI_REQUETE_MS = 20_000;
+
 export class ErreurApi extends Error {
   status: number;
   champs: Record<string, string[]>;
@@ -18,12 +22,27 @@ export class ErreurApi extends Error {
  * `cache: "no-store"` — stock et prix doivent toujours être ceux du moment.
  */
 export async function appelerApi<T>(chemin: string, options: { method?: string; corps?: unknown } = {}): Promise<T> {
-  const reponse = await fetch(`${API_URL}${chemin}`, {
-    method: options.method ?? "GET",
-    cache: "no-store",
-    headers: { Accept: "application/json", ...(options.corps ? { "Content-Type": "application/json" } : {}) },
-    body: options.corps ? JSON.stringify(options.corps) : undefined,
-  });
+  let reponse: Response;
+  try {
+    reponse = await fetch(`${API_URL}${chemin}`, {
+      method: options.method ?? "GET",
+      cache: "no-store",
+      signal: AbortSignal.timeout(DELAI_REQUETE_MS),
+      headers: { Accept: "application/json", ...(options.corps ? { "Content-Type": "application/json" } : {}) },
+      body: options.corps ? JSON.stringify(options.corps) : undefined,
+    });
+  } catch (e) {
+    // fetch() rejette avec une exception brute (jamais une réponse HTTP) sur
+    // un réseau injoignable ou l'abandon ci-dessus — uniformisé en ErreurApi
+    // pour que tout appelant n'ait qu'une seule forme d'erreur à gérer.
+    const delaiDepasse = e instanceof DOMException && e.name === "TimeoutError";
+    throw new ErreurApi(
+      delaiDepasse
+        ? "La connexion a mis trop de temps à répondre. Vérifie ta connexion et réessaie."
+        : "Impossible de joindre le serveur. Vérifie ta connexion et réessaie.",
+      0
+    );
+  }
 
   const json = await reponse.json().catch(() => null);
 
